@@ -165,6 +165,6 @@ n8n-workflows/
 
 GitHub: https://github.com/devkumarkv
 
-LinkedIn: Add Your LinkedIn Profile Here
+LinkedIn: www.linkedin.com/in/dev-kumar-94619a24a
 
-Email: Add Your Professional Email Here
+Email: devkumarkv@gmail.com
