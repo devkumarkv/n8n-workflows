@@ -1,0 +1,209 @@
+{
+  "name": "Dev AI Agent (WhatsApp - Business Keyword)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "whatsapp-incoming",
+        "options": {}
+      },
+      "id": "46bd6671-2e8c-4bfe-afaa-1a9811364cf9",
+      "name": "Webhook - WhatsApp Incoming",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -960,
+        -16
+      ],
+      "webhookId": "2d84da54-af13-4d7d-a6ff-ce8908f25a53"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.body.data.body }}",
+              "value2": "business"
+            }
+          ]
+        }
+      },
+      "id": "0540f81b-19ec-4a5d-92eb-5d85369c9d87",
+      "name": "Check if 'business'",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -624,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "requestMethod": "POST",
+        "url": "https://api.ultramsg.com/instance145170/messages/chat?token=ur0camdw4vjcxl4u",
+        "options": {},
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "token",
+              "value": "ur0camdw4vjcxl4u"
+            },
+            {
+              "name": "to",
+              "value": "=={{ $json.body.data.from.replace(\"@c.us\", \"\").replace(/^(\\d)/, \"+$1\") }}\n"
+            },
+            {
+              "name": "body",
+              "value": "I'm Dev AI Agent. I can also make AI agents for you. So, how can I help you??"
+            }
+          ]
+        },
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ]
+        }
+      },
+      "id": "09557a4a-4b8c-41ce-8337-85953f509976",
+      "name": "Send WhatsApp Reply (UltraMsg)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        -336,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -864,
+        256
+      ],
+      "id": "ae22d89f-5750-46cc-b2b2-58275a027959",
+      "name": "When chat message received",
+      "webhookId": "80ff304f-7863-41d1-8d14-b840e78f451b"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=={{ $json.output_text || \"I'm Dev AI Agent. I can also make AI agents for you. So, how can I help you??\" }}\n",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "AIMessagePromptTemplate",
+              "message": "You are Dev personal assistant so talk like that"
+            },
+            {
+              "message": "You are Dev personal assistant so talk like that"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        -304,
+        160
+      ],
+      "id": "6da2d536-9bfa-49c9-aa05-812bf881ae66",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-chat-v3.1:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -368,
+        368
+      ],
+      "id": "cf7695a3-33e3-445d-8cff-f58d3a94faee",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "pP5E2XqEkkbfHo7B",
+          "name": "OpenRouter account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook - WhatsApp Incoming": {
+      "main": [
+        [
+          {
+            "node": "Check if 'business'",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check if 'business'": {
+      "main": [
+        [
+          {
+            "node": "Send WhatsApp Reply (UltraMsg)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Send WhatsApp Reply (UltraMsg)": {
+      "main": [
+        []
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "3a25d754-811c-4ed3-b259-7265c1bfdeaf",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0e4c78c80774b6b9bb5399d8ae83cd3e1e5e9edf4f93a6cd6ab23faab56886ef"
+  },
+  "id": "ft2K2VHG3ahzGehT",
+  "tags": []
+}

@@ -1,0 +1,186 @@
+{
+  "name": "AutoApply Job Bot",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "autoapply",
+        "options": {}
+      },
+      "id": "554eb510-eb2b-4a86-9c59-ae72a5f16bf7",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        80
+      ],
+      "webhookId": "58a5df20-dc88-45b2-acdc-1df7917d40e9"
+    },
+    {
+      "parameters": {
+        "url": "https://remotive.com/api/remote-jobs?search={{$json[\"keywords\"]}}",
+        "options": {}
+      },
+      "id": "cbf6cd92-cf2d-4a55-891f-631192482f8c",
+      "name": "Fetch Remotive Jobs",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        176,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "return items[0].json.jobs.slice(0,3).map(job => ({ json: job }));"
+      },
+      "id": "9de27152-e268-425d-a4cb-a92a8fc5002d",
+      "name": "Select Top 3 Jobs",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        432,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "model": "gpt-3.5-turbo",
+        "prompt": "Write a short, friendly, personalized cover letter for the {{$json[\"title\"]}} role. Candidate Name: {{$json[\"name\"]}}. Resume Link: {{$json[\"resume\"]}}. Skills: HTML, CSS, MySQL, Power BI, AI Automation, Social Media Marketing. Keep it under 150 words.",
+        "options": {},
+        "requestOptions": {}
+      },
+      "id": "e90c2f1e-2c78-4aae-ba8e-6d6d20c57453",
+      "name": "Generate Cover Letter (OpenAI)",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        672,
+        80
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "gMZusBxEVXhKCzKW",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "subject": "Application for {{$json[\"title\"]}} – via AutoApply Bot",
+        "message": "=<p>Dear Hiring Manager,</p>  <p>I came across the <b>{{$json[\"title\"]}}</b> position at <b>{{$json[\"company_name\"]}}</b> and I’m very interested in applying.</p>  <p>Please find my resume attached below. I look forward to the opportunity to contribute to your team.</p>  <p>Best regards,<br> {{$json[\"name\"]}}<br> {{$json[\"email\"]}}</p>",
+        "additionalFields": {}
+      },
+      "id": "d489945c-5b6e-4e7e-be01-a7535bce49eb",
+      "name": "Send Application (Gmail)",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        928,
+        80
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "WJv532C13mUb3Wjh",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "spreadsheet",
+        "title": "Autoapply",
+        "options": {}
+      },
+      "id": "1e487a18-b3dc-4860-aa61-29fa1aac2ce3",
+      "name": "Log to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1184,
+        80
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "y6t9jbBl2ljJJIAS",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Fetch Remotive Jobs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Remotive Jobs": {
+      "main": [
+        [
+          {
+            "node": "Select Top 3 Jobs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select Top 3 Jobs": {
+      "main": [
+        [
+          {
+            "node": "Generate Cover Letter (OpenAI)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Cover Letter (OpenAI)": {
+      "main": [
+        [
+          {
+            "node": "Send Application (Gmail)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Application (Gmail)": {
+      "main": [
+        [
+          {
+            "node": "Log to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log to Google Sheets": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d036b074-1533-4aa8-a079-1a33a586527a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0e4c78c80774b6b9bb5399d8ae83cd3e1e5e9edf4f93a6cd6ab23faab56886ef"
+  },
+  "id": "U5iecKxcD96yqmq8",
+  "tags": []
+}

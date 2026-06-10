@@ -1,0 +1,1008 @@
+{
+  "name": "Airtable",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appFLXE8nwN6EHrFM",
+          "mode": "list",
+          "cachedResultName": "Monthly Expense Sheet",
+          "cachedResultUrl": "https://airtable.com/appFLXE8nwN6EHrFM"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblK7GViyCBJpTjrR",
+          "mode": "list",
+          "cachedResultName": "Expenses",
+          "cachedResultUrl": "https://airtable.com/appFLXE8nwN6EHrFM/tblK7GViyCBJpTjrR"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.Name }}",
+            "Amount Spent": "={{ $json['Amount Spent'] }}",
+            "Date": "={{ $json.Date }}",
+            "Product": "={{ $json.Product }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Amount Spent",
+              "displayName": "Amount Spent",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Product",
+              "displayName": "Product",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Month",
+              "displayName": "Month",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": true
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        208,
+        -48
+      ],
+      "id": "11a667ea-3001-4410-8bd7-7e411567b29f",
+      "name": "Create a record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "1FD6eoi7YHCpZGir",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.fields.Product }}",
+                    "rightValue": "Grocery",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "1708a1e3-e7af-4974-804f-73d4bfd7e47b"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "d1a82dd8-6448-4c9f-af18-e1108d880c5e",
+                    "leftValue": "={{ $json.fields.Product }}",
+                    "rightValue": "Clothes",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "46fd3b00-61cd-4458-af96-8e07fa8b3a18",
+                    "leftValue": "={{ $json.fields.Product }}",
+                    "rightValue": "Others",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        432,
+        -64
+      ],
+      "id": "c7c19753-8784-45fa-8f03-d24eee45069e",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "formTitle": "Monthly Expenses",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Amount Spent",
+              "fieldType": "number",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Date",
+              "fieldType": "date",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Month"
+            },
+            {
+              "fieldLabel": "Product",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Grocery"
+                  },
+                  {
+                    "option": "Clothes"
+                  },
+                  {
+                    "option": "Others"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        -16,
+        -48
+      ],
+      "id": "2891f529-28d1-4692-9640-1e6916565a5e",
+      "name": "On form submission",
+      "webhookId": "06fc7b0a-23b7-46a8-9b4d-d399cbb954ec"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appFLXE8nwN6EHrFM",
+          "mode": "list",
+          "cachedResultName": "Monthly Expense Sheet",
+          "cachedResultUrl": "https://airtable.com/appFLXE8nwN6EHrFM"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblK7GViyCBJpTjrR",
+          "mode": "list",
+          "cachedResultName": "Expenses",
+          "cachedResultUrl": "https://airtable.com/appFLXE8nwN6EHrFM/tblK7GViyCBJpTjrR"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Create a record').item.json.id }}",
+            "Rating": 4,
+            "Amount Spent": "={{ $('Create a record').item.json.fields['Amount Spent'] }}",
+            "Name": "={{ $('Create a record').item.json.fields.Name }}",
+            "Date": "={{ $('Create a record').item.json.fields.Date }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Product",
+              "displayName": "Product",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Grocery",
+                  "value": "Grocery"
+                },
+                {
+                  "name": "Clothes",
+                  "value": "Clothes"
+                },
+                {
+                  "name": "Others",
+                  "value": "Others"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Amount Spent",
+              "displayName": "Amount Spent",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Month",
+              "displayName": "Month",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Rating",
+              "displayName": "Rating",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": true
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        656,
+        -240
+      ],
+      "id": "e32a7de8-7534-41a7-aa08-c241833ea9b3",
+      "name": "Grocery Rating",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "1FD6eoi7YHCpZGir",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appFLXE8nwN6EHrFM",
+          "mode": "list",
+          "cachedResultName": "Monthly Expense Sheet",
+          "cachedResultUrl": "https://airtable.com/appFLXE8nwN6EHrFM"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblK7GViyCBJpTjrR",
+          "mode": "list",
+          "cachedResultName": "Expenses",
+          "cachedResultUrl": "https://airtable.com/appFLXE8nwN6EHrFM/tblK7GViyCBJpTjrR"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Create a record').item.json.id }}",
+            "Rating": 3,
+            "Amount Spent": "={{ $json.fields['Amount Spent'] }}",
+            "Name": "={{ $json.fields.Name }}",
+            "Date": "={{ $json.fields.Date }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Product",
+              "displayName": "Product",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Grocery",
+                  "value": "Grocery"
+                },
+                {
+                  "name": "Clothes",
+                  "value": "Clothes"
+                },
+                {
+                  "name": "Others",
+                  "value": "Others"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Amount Spent",
+              "displayName": "Amount Spent",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Month",
+              "displayName": "Month",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Rating",
+              "displayName": "Rating",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": true
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        656,
+        -48
+      ],
+      "id": "a57e0732-38b8-4fc6-bcc0-5f3d28b3cced",
+      "name": "Clothes Rating",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "1FD6eoi7YHCpZGir",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appFLXE8nwN6EHrFM",
+          "mode": "list",
+          "cachedResultName": "Monthly Expense Sheet",
+          "cachedResultUrl": "https://airtable.com/appFLXE8nwN6EHrFM"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblK7GViyCBJpTjrR",
+          "mode": "list",
+          "cachedResultName": "Expenses",
+          "cachedResultUrl": "https://airtable.com/appFLXE8nwN6EHrFM/tblK7GViyCBJpTjrR"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Amount Spent": "={{ $('Create a record').item.json.fields['Amount Spent'] }}",
+            "id": "={{ $('Create a record').item.json.id }}",
+            "Rating": 2,
+            "Name": "={{ $('Create a record').item.json.fields.Name }}",
+            "Date": "={{ $('Create a record').item.json.fields.Date }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Product",
+              "displayName": "Product",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Grocery",
+                  "value": "Grocery"
+                },
+                {
+                  "name": "Clothes",
+                  "value": "Clothes"
+                },
+                {
+                  "name": "Others",
+                  "value": "Others"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Amount Spent",
+              "displayName": "Amount Spent",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Month",
+              "displayName": "Month",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Rating",
+              "displayName": "Rating",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": true
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        656,
+        144
+      ],
+      "id": "caac376a-8afa-419b-a4bb-3ffc6cea32b8",
+      "name": "Others Rating",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "1FD6eoi7YHCpZGir",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Act as a head of the family. give suggestion like a father on expenditure spend.\nAlso scold hardly when someone spend more than $200.\neverything should be in maximum 5 lines.\nand everytime the suggest suggestion should be different.\nUse Hinglish language. \nand also give something deadly warning when the amount is more than $400.\nIt must include:-\nAmount : {{ $json.fields['Amount Spent'] }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        1104,
+        -48
+      ],
+      "id": "2c685145-14c4-4a84-8422-d5f53500251a",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        176
+      ],
+      "id": "6aa440c2-7ecc-498c-8430-b2d0e9544565",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "33EY2NFIM589Pzgv",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appFLXE8nwN6EHrFM",
+          "mode": "list",
+          "cachedResultName": "Monthly Expense Sheet",
+          "cachedResultUrl": "https://airtable.com/appFLXE8nwN6EHrFM"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblK7GViyCBJpTjrR",
+          "mode": "list",
+          "cachedResultName": "Expenses",
+          "cachedResultUrl": "https://airtable.com/appFLXE8nwN6EHrFM/tblK7GViyCBJpTjrR"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Amount Spent": "={{ $('Create a record').item.json.fields['Amount Spent'] }}",
+            "Rating": "={{ $('Merge').item.json.fields.Rating }}",
+            "Name": "={{ $('Create a record').item.json.fields.Name }}",
+            "Product": "={{ $('Create a record').item.json.fields.Product }}",
+            "Suggestion": "={{ $json.output }}\n",
+            "Date": "={{ $('Create a record').item.json.fields.Date }}",
+            "id": "={{ $('Create a record').item.json.id }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Product",
+              "displayName": "Product",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Grocery",
+                  "value": "Grocery"
+                },
+                {
+                  "name": "Clothes",
+                  "value": "Clothes"
+                },
+                {
+                  "name": "Others",
+                  "value": "Others"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Amount Spent",
+              "displayName": "Amount Spent",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Month",
+              "displayName": "Month",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Rating",
+              "displayName": "Rating",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Suggestion",
+              "displayName": "Suggestion",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": true
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1456,
+        -48
+      ],
+      "id": "5e17fc86-2350-4e14-9746-a1c2cbe5589a",
+      "name": "Update record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "1FD6eoi7YHCpZGir",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        880,
+        -64
+      ],
+      "id": "f4ee585d-9da5-4cbb-b4e7-6fc45a404446",
+      "name": "Merge"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Create a record": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Create a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Grocery Rating",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Clothes Rating",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Others Rating",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Grocery Rating": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Update record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clothes Rating": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Others Rating": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f9b13035-9151-4d15-8e1e-4e17c2e16787",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0e4c78c80774b6b9bb5399d8ae83cd3e1e5e9edf4f93a6cd6ab23faab56886ef"
+  },
+  "id": "Gyf239keYrXODnyJ",
+  "tags": []
+}

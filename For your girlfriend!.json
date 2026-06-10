@@ -1,0 +1,561 @@
+{
+  "name": "For your girlfriend!",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "95012dfd-c19d-4ea7-958b-ee46e0356035",
+      "name": "Wikipedia",
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "position": [
+        1136,
+        320
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {},
+      "id": "a8bab350-7c8c-49e9-ae5f-a2ae0f9e00ff",
+      "name": "Get Text",
+      "type": "n8n-nodes-base.wait",
+      "position": [
+        0,
+        400
+      ],
+      "webhookId": "99b49c83-d956-46d2-b8d3-d65622121ad9",
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-pro-002",
+        "options": {}
+      },
+      "id": "3c1c3e4d-003f-43f2-a463-b4192944a0ae",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "position": [
+        800,
+        320
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-pro-002",
+        "options": {}
+      },
+      "id": "9b9afa2d-1e6e-496b-bca8-341f35e8d969",
+      "name": "Google Gemini Chat Model2",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "position": [
+        208,
+        544
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process audio messages (voice notes) from girlfriend\nconst audioMessages = $input.all();\nconst processedMessages = [];\n\nfor (const item of audioMessages) {\n  const audioData = item.json;\n  \n  // Generate appropriate response based on time of day\n  const currentHour = new Date().getHours();\n  let timeBasedResponse = \"\";\n  let responseType = \"\";\n  \n  if (currentHour < 12) {\n    timeBasedResponse = \"Good morning beautiful! 😘 Just heard your voice note and it made my whole morning better. I love you too! ❤️\";\n    responseType = \"morning_response\";\n  } else if (currentHour < 17) {\n    timeBasedResponse = \"Hey baby! 💕 Got your message. Missing you so much right now. Can't wait to see you later! Love you more! 🥰\";\n    responseType = \"afternoon_response\";\n  } else if (currentHour < 22) {\n    timeBasedResponse = \"Hi my love! 😍 Your voice is the best thing I've heard all day. I love you so much! Thinking about you always 💖\";\n    responseType = \"evening_response\";\n  } else {\n    timeBasedResponse = \"Sweet dreams my angel! 🌙 Just heard your message. I love you to the moon and back! Sleep tight baby 💤❤️\";\n    responseType = \"night_response\";\n  }\n  \n  // Array of random loving responses for variety\n  const randomResponses = [\n    \"Your voice note just made me smile so big! I love you endlessly 💝\",\n    \"Aww baby, I needed to hear that! Missing you like crazy right now 😘\",\n    \"You're the best thing in my life! Love you so so much! ❤️❤️❤️\",\n    \"Just listening to your voice makes everything better. I love you more! 💕\",\n    \"Can't stop thinking about you! Thanks for the message baby, love you! 🥰\",\n    \"You always know how to make my day special. I love you infinity! ♾️❤️\",\n    \"Hearing 'I love you' from you never gets old. Love you more than words! 😍\",\n    \"My heart just skipped a beat! I love and miss you too baby! 💖\"\n  ];\n  \n  // Randomly decide whether to use time-based or random response (70% time-based, 30% random)\n  const useTimeBased = Math.random() < 0.7;\n  const selectedResponse = useTimeBased \n    ? timeBasedResponse \n    : randomResponses[Math.floor(Math.random() * randomResponses.length)];\n  \n  // Create processed message object\n  const processedMessage = {\n    original_audio_id: audioData.audio?.id || audioData.id,\n    audio_url: audioData.url || audioData.audio?.url,\n    received_at: new Date().toISOString(),\n    message_type: \"audio_voice_note\",\n    assumed_content: \"I love you / I miss you message\",\n    response_text: selectedResponse,\n    response_type: useTimeBased ? responseType : \"random_response\",\n    sender_phone: audioData.from || $('WhatsApp Trigger').item.json.messages[0].from,\n    should_respond: true,\n    response_delay_seconds: Math.floor(Math.random() * 60) + 30, // Random delay 30-90 seconds\n    metadata: {\n      processed: true,\n      audio_duration: audioData.audio?.duration || \"unknown\",\n      mime_type: audioData.audio?.mime_type || \"audio/ogg\",\n      file_size: audioData.audio?.file_size || \"unknown\"\n    }\n  };\n  \n  processedMessages.push({\n    json: processedMessage\n  });\n}\n\n// Return processed messages with response ready to send\nreturn processedMessages;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "9d984bf1-67ed-4f8b-bbd7-1cddcdc18fcf",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1P2m6M9h7Sb0xXaB3ejhWpa6luqTcGGtmBhR5x_BAeec",
+          "mode": "list",
+          "cachedResultName": "Untitled spreadsheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1P2m6M9h7Sb0xXaB3ejhWpa6luqTcGGtmBhR5x_BAeec/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1P2m6M9h7Sb0xXaB3ejhWpa6luqTcGGtmBhR5x_BAeec/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        192
+      ],
+      "id": "62d85a1b-38cd-4560-99b9-84bf27dca071",
+      "name": "Get row(s) in sheet"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "477115632141067",
+        "recipientPhoneNumber": "={{ $('Incoming WhatsApp Messages from your GF').item.json.messages[0].from }}",
+        "textBody": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "id": "f1bd38a0-c96e-43f5-a24b-507c077d17d7",
+      "name": "Respond to your girlfriend",
+      "type": "n8n-nodes-base.whatsApp",
+      "position": [
+        1280,
+        144
+      ],
+      "typeVersion": 1,
+      "webhookId": "3613f660-b95d-492b-b958-f6c450b6c514"
+    },
+    {
+      "parameters": {
+        "resource": "media",
+        "operation": "mediaUrlGet",
+        "mediaGetId": "={{ $json.video.id }}"
+      },
+      "id": "b4ea9756-81ea-4ab7-8e06-dec930b28214",
+      "name": "Preparing Birthday Messages",
+      "type": "n8n-nodes-base.whatsApp",
+      "position": [
+        0,
+        192
+      ],
+      "typeVersion": 1,
+      "webhookId": "ad3954ce-9208-4eb6-8361-ec7aee70c16e"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -832,
+        32
+      ],
+      "id": "cd10b18b-07dd-43a3-8756-40d4c112f330",
+      "name": "Hourly Love Message Timer"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {}
+      },
+      "id": "dc83e765-f26c-4dd2-8925-323a8de58684",
+      "name": "Incoming WhatsApp Messages from your GF",
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "position": [
+        -832,
+        272
+      ],
+      "webhookId": "0b1b3a9b-2f6a-4f5a-8385-6365d96f4802",
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "messages",
+        "options": {}
+      },
+      "id": "a61cb825-fb3e-4f28-b98f-2f50a4aeb261",
+      "name": "Extract Individual Messages",
+      "type": "n8n-nodes-base.splitOut",
+      "position": [
+        -592,
+        160
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "leftValue": "={{ $json.type == 'audio' && Boolean($json.audio) }}",
+                    "rightValue": "audio"
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "I miss you messages"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "82aa5ff4-c9b6-4187-a27e-c7c5d9bfdda0",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "leftValue": "={{ $json.type == 'video' && Boolean($json.video) }}",
+                    "rightValue": ""
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "Birthday Messages"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra",
+          "renameFallbackOutput": "Text Message"
+        }
+      },
+      "id": "df46b4d6-4e78-455a-bd3f-9e162b93822b",
+      "name": "Route by Message Type",
+      "type": "n8n-nodes-base.switch",
+      "position": [
+        -368,
+        144
+      ],
+      "typeVersion": 3.2
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text.body || $json.text }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "Summarize my girlfriend message succinctly."
+            }
+          ]
+        }
+      },
+      "id": "fa1626bd-32a8-4629-8f11-c8cd013365ad",
+      "name": "Summarize Her Message",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "position": [
+        224,
+        400
+      ],
+      "typeVersion": 1.4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d990cbd6-a408-4ec4-a889-41be698918d9",
+              "name": "message_type",
+              "type": "string",
+              "value": "={{ $('Extract Individual Messages').item.json.type }}"
+            },
+            {
+              "id": "23b785c3-f38e-4706-80b7-51f333bba3bd",
+              "name": "message_text",
+              "type": "string",
+              "value": "={{ $json.text }}"
+            },
+            {
+              "id": "6e83f9a7-cf75-4182-b2d2-3151e8af76b9",
+              "name": "from",
+              "type": "string",
+              "value": "={{ $('Incoming WhatsApp Messages from your GF').item.json.messages[0].from }}"
+            },
+            {
+              "id": "da4b602a-28ca-4b0d-a747-c3d3698c3731",
+              "name": "message_caption",
+              "type": "string",
+              "value": "={{ $('Route by Message Type').item.json.video && $('Route by Message Type').item.json.video.caption || '' }}\n{{ $('Route by Message Type').item.json.image && $('Route by Message Type').item.json.image.caption || ''}}\n{{ $('Route by Message Type').item.json.audio && $('Route by Message Type').item.json.audio.caption || ''}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f6dc31b2-8f31-4fb8-8895-4da2c5e60f3c",
+      "name": "Prepare Message Context",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        624,
+        144
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=My girlfriend just sent me this message on WhatsApp:\n\nMessage type: {{ $json.message_type }}\nHer message: {{ $json.message_text }}\n{{ $json.message_caption ? `Additional context: ${$json.message_caption.trim()}` : '' }}\n\nBased on our conversation history and her current message, respond as her loving boyfriend. Keep the tone natural and caring. If she's sharing something important, acknowledge it specifically. Use her name occasionally and reference shared memories when relevant.\n\nCurrent time: {{ new Date().toLocaleString() }}\nHer name: {{ $json.girlfriend_name || 'babe' }}",
+        "options": {
+          "systemMessage": "You are acting as a caring, attentive boyfriend responding to your girlfriend's WhatsApp messages. Your responses should be warm, personal, and emotionally supportive. Remember previous conversations and inside jokes. Use affectionate language, emojis when appropriate, and show genuine interest in what she's sharing. Keep responses conversational and natural - not too long or formal. Always make her feel heard, valued, and loved. Match her energy level and mood. If she seems upset, be comforting. If she's excited, share her enthusiasm. Remember important details she mentions about her day, friends, family, and feelings."
+        }
+      },
+      "id": "a54c4e93-54ff-4947-b51b-ec07d19a53bf",
+      "name": "AI Boyfriend Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        912,
+        144
+      ],
+      "typeVersion": 1.6
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=whatsapp-tutorial-{{ $json.from }}"
+      },
+      "id": "d7a779bf-1682-4eed-9134-e8ab1463ee39",
+      "name": "Chat History",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "position": [
+        992,
+        320
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "resource": "media",
+        "operation": "mediaUrlGet",
+        "mediaGetId": "={{ $json.audio.id }}"
+      },
+      "id": "7174f7c0-3e27-4ddf-8503-f439bed88e32",
+      "name": "I miss you messages",
+      "type": "n8n-nodes-base.whatsApp",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "webhookId": "f1d52efe-a6b6-4d15-9da9-5b19aa378290"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Get Text": {
+      "main": [
+        [
+          {
+            "node": "Summarize Her Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wikipedia": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Boyfriend Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Boyfriend Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summarize Her Message",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Prepare Message Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Prepare Message Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparing Birthday Messages": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hourly Love Message Timer": {
+      "main": [
+        [
+          {
+            "node": "Extract Individual Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Incoming WhatsApp Messages from your GF": {
+      "main": [
+        [
+          {
+            "node": "Extract Individual Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Individual Messages": {
+      "main": [
+        [
+          {
+            "node": "Route by Message Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Message Type": {
+      "main": [
+        [
+          {
+            "node": "I miss you messages",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparing Birthday Messages",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize Her Message": {
+      "main": [
+        [
+          {
+            "node": "Prepare Message Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Message Context": {
+      "main": [
+        [
+          {
+            "node": "AI Boyfriend Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Boyfriend Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to your girlfriend",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chat History": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Boyfriend Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "I miss you messages": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "b0a98100-1172-47be-ae92-2570b247927d",
+  "meta": {
+    "instanceId": "0e4c78c80774b6b9bb5399d8ae83cd3e1e5e9edf4f93a6cd6ab23faab56886ef"
+  },
+  "id": "pe38HeF9AAlyKgwZ",
+  "tags": []
+}
