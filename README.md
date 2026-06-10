@@ -1,46 +1,170 @@
-# n8n Workflows
+# 🚀 AI Automation Portfolio (n8n)
 
-A collection of my n8n automation workflows and AI agents.
+A collection of AI-powered automation systems and intelligent agents built using n8n, Google Gemini, APIs, Airtable, and Webhooks.
 
-## Workflows
+## 👨‍💻 About Me
 
-### 🤖 AI Dad Bot
+Hi, I'm **Dev Kumar**, an aspiring AI Automation Developer passionate about building intelligent workflows that automate repetitive tasks, improve productivity, and solve real-world business problems.
 
-AI-powered expense tracking and financial advisor that analyzes spending habits and provides feedback.
+### Skills
 
-### 💼 AutoApply Job Bot
+* Workflow Automation (n8n)
+* AI Agent Development
+* Prompt Engineering
+* API Integration
+* Webhooks
+* Google Gemini
+* Airtable
+* WhatsApp Automation
+* Process Automation
 
-Automates job search and application workflows.
+---
 
-### 📱 WhatsApp Business AI Agent
+# 🤖 Featured Projects
 
-AI-powered WhatsApp assistant for handling business inquiries and customer interactions.
+## 1. AI Dad Bot
 
-### ❤️ Relationship Assistant
+An AI-powered financial advisor that tracks expenses, analyzes spending habits, and provides personalized financial recommendations.
 
-Automation workflow for personalized relationship-related interactions and messaging.
+### Workflow Screenshot
 
-## Tech Stack
+![AI Dad Bot](screenshots/ai-dad-bot.png)
+
+### Features
+
+* Expense tracking
+* Budget analysis
+* Spending insights
+* Personalized recommendations
+* Financial habit monitoring
+
+### Tech Stack
 
 * n8n
 * Google Gemini
-* OpenAI
 * Airtable
-* WhatsApp Business API
+* APIs
+
+---
+
+## 2. AutoApply Job Bot
+
+An automation system designed to streamline job searching and application management.
+
+### Workflow Screenshot
+
+![AutoApply Job Bot](screenshots/autoapply-job-bot.png)
+
+### Features
+
+* Job discovery
+* Opportunity filtering
+* Automated tracking
+* Application workflow automation
+
+### Tech Stack
+
+* n8n
+* Web Scraping
+* APIs
+* Google Gemini
+
+---
+
+## 3. WhatsApp Business AI Agent
+
+An AI-powered WhatsApp assistant capable of handling business inquiries and customer interactions.
+
+### Workflow Screenshot
+
+![WhatsApp Business Agent](screenshots/whatsapp-agent.png)
+
+### Features
+
+* Automated customer support
+* Lead capture
+* FAQ responses
+* Business inquiry handling
+* Intelligent conversations
+
+### Tech Stack
+
+* n8n
+* WhatsApp API
+* Google Gemini
 * Webhooks
+
+---
+
+## 4. Relationship Assistant
+
+A personalized AI assistant workflow designed for customized communication and interaction.
+
+### Workflow Screenshot
+
+![Relationship Assistant](screenshots/relationship-assistant.png)
+
+### Features
+
+* Personalized messaging
+* Context-aware responses
+* Automated interactions
+* AI-powered conversation generation
+
+### Tech Stack
+
+* n8n
+* Google Gemini
+* APIs
+
+---
+
+# 🛠 Technologies Used
+
+* n8n
+* Google Gemini
+* Airtable
 * REST APIs
+* Webhooks
+* JSON
+* Git
+* GitHub
 
-## Purpose
+---
 
-This repository serves as:
+# 🎯 Project Goals
 
-* Backup of n8n workflows
-* Version control for automations
-* Portfolio of AI automation projects
-* Disaster recovery storage
+These projects demonstrate:
 
-## Author
+* AI Agent Development
+* Business Process Automation
+* API Integration
+* Workflow Design
+* Automation Architecture
+* Prompt Engineering
+* Version Control Using Git & GitHub
+
+---
+
+# 📂 Repository Structure
+
+```text
+n8n-workflows/
+│
+├── workflows/
+├── screenshots/
+├── docs/
+└── README.md
+```
+
+---
+
+# 📬 Contact
 
 **Dev Kumar**
 
 GitHub: https://github.com/devkumarkv
+
+LinkedIn: Add Your LinkedIn Profile Here
+
+Email: Add Your Professional Email Here
