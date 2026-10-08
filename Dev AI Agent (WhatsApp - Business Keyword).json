@@ -40,13 +40,13 @@
     {
       "parameters": {
         "requestMethod": "POST",
-        "url": "https://api.ultramsg.com/instance145170/messages/chat?token=ur0camdw4vjcxl4u",
+        "url": "https://api.ultramsg.com/instance145170/messages/chat?token=ur0camdw4vjcxl4xx",
         "options": {},
         "bodyParametersUi": {
           "parameter": [
             {
               "name": "token",
-              "value": "ur0camdw4vjcxl4u"
+              "value": "ur0camdw4vjcxl4xx"
             },
             {
               "name": "to",
